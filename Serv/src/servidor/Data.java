@@ -24,7 +24,22 @@ public class Data {
             {0, 1, 2, 3, 0, 0, 1, 2, 0, 0, 1, 0, 3, 2, 0, 0, 1, 2, 3, 0},
             {3, 0, 1, 0, 0, 2, 3, 0, 1, 0, 0, 1, 0, 2, 3, 0, 1, 0, 0, 1}
     };
-
+    
+    /*
+    private static final int[][] avaliacoes = {
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+    */
+    
     private static final Map<String, Integer> indiceUsuarioMapa = new HashMap<>();
     private static final Map<String, Integer> indiceFilmeMapa = new HashMap<>();
     
@@ -116,9 +131,10 @@ public class Data {
     private String recomendarFilme(String nome) {
         int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
         int usuarioProximo = 0;
-        
         double menorDistancia = Double.MAX_VALUE;
         List<Integer> filmeRecomendado = new ArrayList<>();
+        
+        exibirMatrizAvaliacoes();
         
         // encontrar o usuario mais proximo
         for (int usuario = 0; usuario < 10; usuario++){
@@ -142,7 +158,7 @@ public class Data {
                 break;
             }
         }
-                
+        
         if (!filmeRecomendado.isEmpty()) {
             StringBuilder recomendacoes = new StringBuilder();
             for (Integer indiceFilme : filmeRecomendado) {
@@ -178,15 +194,15 @@ public class Data {
         double total = 0;
         double distancia = 0;
         
-        System.out.println("----------------------------------------------");
         System.out.println("outroUsuario: " + outroUsuario + ":");
         
         for (int filme = 0; filme < N_FILMES; filme++) {
             double celula = Math.pow(matriz[linhaUsuario][filme] - matriz[outroUsuario][filme], 2);
             total = total + celula;
-            System.out.println("----------------------------------------------");
-            System.out.println("filme: " + filme + "\n(" + matriz[linhaUsuario][filme] + "-" + matriz[outroUsuario][filme] + ")elev.2 = " + celula);
-            System.out.println("total: " + total);
+            //System.out.println("----------------------------------------------");
+            //System.out.println("filme: " + filme);
+            //System.out.println("(" + matriz[linhaUsuario][filme] + "-" + matriz[outroUsuario][filme] + ")^2 = " + celula);
+            //System.out.println("total: " + total);
         }
         
         distancia = Math.sqrt(total);
@@ -204,5 +220,14 @@ public class Data {
             }
         }
         return "";
+    }
+    
+    private void exibirMatrizAvaliacoes(){
+        System.out.println();
+        for (int i = 0; i < avaliacoes.length; i++) {
+            for (int j = 0; j < avaliacoes[i].length; j++) {
+                System.out.print(avaliacoes[i][j] + " ");
+            } System.out.println();
+        } System.out.println();
     }
 }
