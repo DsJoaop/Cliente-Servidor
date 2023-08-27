@@ -64,7 +64,7 @@ public class Data {
     }
     
      
-    protected static String processarRequisicao(String requisicao) {
+    protected String processarRequisicao(String requisicao) {
         String[] partes = requisicao.split(";");
         
         int linhaUsuario = indiceUsuarioMapa.getOrDefault(partes[1], -1);
@@ -88,7 +88,7 @@ public class Data {
         }
     }
 
-    private static String filmesNaoAvaliados(String nome) {
+    private String filmesNaoAvaliados(String nome) {
         int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
 
         StringBuilder filmesNaoAvaliados = new StringBuilder();
@@ -103,7 +103,7 @@ public class Data {
         return filmesNaoAvaliados.toString();
     }
 
-    private static String avaliarFilme(String nome, String nomeFilme, int nota) {
+    private String avaliarFilme(String nome, String nomeFilme, int nota) {
         int colunaFilme = indiceFilmeMapa.getOrDefault(nomeFilme, -1);
         int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
 
@@ -113,28 +113,39 @@ public class Data {
         return "Filme: " + nomeFilme + ", avaliado com sucesso!";
     }
 
-    private static String recomendarFilme(String nome) {
+    private String recomendarFilme(String nome) {
         int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
-
+        int usuarioProximo = 0;
+        
         double menorDistancia = Double.MAX_VALUE;
-        List<Integer> filmesRecomendados = new ArrayList<>();
-
-        for (int coluna = 0; coluna < N_FILMES; coluna++) {
-            if (avaliacoes[linhaUsuario][coluna] == 0) {
-                double distancia = calcularDistancia(avaliacoes, linhaUsuario, coluna);
+        List<Integer> filmeRecomendado = new ArrayList<>();
+        
+        // encontrar o usuario mais proximo
+        for (int usuario = 0; usuario < 10; usuario++){
+            if (usuario != linhaUsuario) {
+                double distancia = calcularDistancia(avaliacoes, linhaUsuario, usuario);
                 if (distancia < menorDistancia) {
                     menorDistancia = distancia;
-                    filmesRecomendados.clear();
-                    filmesRecomendados.add(coluna);
-                } else if (distancia == menorDistancia) {
-                    filmesRecomendados.add(coluna);
+                    usuarioProximo = usuario;
                 }
             }
         }
-
-        if (!filmesRecomendados.isEmpty()) {
+        System.out.println("\n [[FINAL]]: Usuario mais proximo: " + usuarioProximo);
+        
+        /* encontrar algum filme entre esses dois usuarios que o outro tenha
+        avaliado positivamente (2 ou 3) e que o usuario que solicitou a recomendacao
+        ainda nao tenha avaliado */
+        for(int f = 0; f < N_FILMES; f++){
+            if((avaliacoes[linhaUsuario][f] == 0) && (avaliacoes[usuarioProximo][f] > 1)){
+                filmeRecomendado.clear();
+                filmeRecomendado.add(f);
+                break;
+            }
+        }
+                
+        if (!filmeRecomendado.isEmpty()) {
             StringBuilder recomendacoes = new StringBuilder();
-            for (Integer indiceFilme : filmesRecomendados) {
+            for (Integer indiceFilme : filmeRecomendado) {
                 if (recomendacoes.length() > 0) {
                     recomendacoes.append("\n");
                 }
@@ -146,7 +157,7 @@ public class Data {
         }
     }
 
-    private static String listarAvaliacoes(String nome) {
+    private String listarAvaliacoes(String nome) {
         int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
 
         StringBuilder avaliacoesUsuario = new StringBuilder();
@@ -163,19 +174,30 @@ public class Data {
         return avaliacoesUsuario.toString();
     }
 
-    private static double calcularDistancia(int[][] matrizAvaliacoes, int linhaUsuario, int colunaFilme) {
+    private double calcularDistancia(int[][] matriz, int linhaUsuario, int outroUsuario) {
+        double total = 0;
         double distancia = 0;
-
-        for (int i = 0; i < matrizAvaliacoes.length; i++) {
-            if (i != linhaUsuario && matrizAvaliacoes[i][colunaFilme] != 0) {
-                double diferenca = matrizAvaliacoes[linhaUsuario][colunaFilme] - matrizAvaliacoes[i][colunaFilme];
-                distancia += diferenca * diferenca;
-            }
+        
+        System.out.println("----------------------------------------------");
+        System.out.println("outroUsuario: " + outroUsuario + ":");
+        
+        for (int filme = 0; filme < N_FILMES; filme++) {
+            double celula = Math.pow(matriz[linhaUsuario][filme] - matriz[outroUsuario][filme], 2);
+            total = total + celula;
+            System.out.println("----------------------------------------------");
+            System.out.println("filme: " + filme + "\n(" + matriz[linhaUsuario][filme] + "-" + matriz[outroUsuario][filme] + ")elev.2 = " + celula);
+            System.out.println("total: " + total);
         }
-        return Math.sqrt(distancia);
+        
+        distancia = Math.sqrt(total);
+        
+        System.out.println("distancia: " + distancia);
+        System.out.println("----------------------------------------------\n\n");
+        
+        return distancia;
     }
 
-    private static String acharFilme(int coluna) {
+    private String acharFilme(int coluna) {
         for (Map.Entry<String, Integer> entrada : indiceFilmeMapa.entrySet()) {
             if (entrada.getValue() == coluna) {
                 return entrada.getKey();
