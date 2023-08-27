@@ -66,14 +66,19 @@ public class Data {
      
     protected static String processarRequisicao(String requisicao) {
         String[] partes = requisicao.split(";");
+        
+        int linhaUsuario = indiceUsuarioMapa.getOrDefault(partes[1], -1);
+        if (linhaUsuario == -1) {
+            return "Nome de usuário não existe!";
+        }
+        
         int opcao = Integer.parseInt(partes[0]);
 
         switch (opcao) {
             case 1:
                 return filmesNaoAvaliados(partes[1]);
             case 2:
-                avaliarFilme(partes[1], partes[2], Integer.parseInt(partes[3]));
-                return "Filme avaliado!";
+                return avaliarFilme(partes[1], partes[2], Integer.parseInt(partes[3]));
             case 3:
                 return recomendarFilme(partes[1]);
             case 4:
@@ -85,9 +90,6 @@ public class Data {
 
     private static String filmesNaoAvaliados(String nome) {
         int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
-        if (linhaUsuario == -1) {
-            return "Nome de usuário não existe!";
-        }
 
         StringBuilder filmesNaoAvaliados = new StringBuilder();
         for (int coluna = 0; coluna < N_FILMES; coluna++) {
@@ -101,20 +103,18 @@ public class Data {
         return filmesNaoAvaliados.toString();
     }
 
-    private static void avaliarFilme(String nome, String nomeFilme, int nota) {
+    private static String avaliarFilme(String nome, String nomeFilme, int nota) {
         int colunaFilme = indiceFilmeMapa.getOrDefault(nomeFilme, -1);
         int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
 
         if (colunaFilme != -1 && linhaUsuario != -1) {
             avaliacoes[linhaUsuario][colunaFilme] = nota;
         }
+        return "Filme: " + nomeFilme + ", avaliado com sucesso!";
     }
 
     private static String recomendarFilme(String nome) {
         int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
-        if (linhaUsuario == -1) {
-            return "Nome de usuário não existe!";
-        }
 
         double menorDistancia = Double.MAX_VALUE;
         List<Integer> filmesRecomendados = new ArrayList<>();
@@ -148,9 +148,6 @@ public class Data {
 
     private static String listarAvaliacoes(String nome) {
         int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
-        if (linhaUsuario == -1) {
-            return "Nome de usuário não existe!";
-        }
 
         StringBuilder avaliacoesUsuario = new StringBuilder();
         for (int coluna = 0; coluna < N_FILMES; coluna++) {
