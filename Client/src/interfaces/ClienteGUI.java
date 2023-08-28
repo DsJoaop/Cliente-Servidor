@@ -209,7 +209,11 @@ public class ClienteGUI extends javax.swing.JFrame {
     
     private boolean validarCampos( String selectedOption){
         String msgErro = "";
-
+        
+        if(txtNome.getText().isEmpty()){
+            msgErro += "Insira um nome de usuário!\n";
+        }
+        
         if(selectedOption == null || selectedOption.isEmpty()){
             msgErro += "Insira uma opção de requisição!\n";
         }else if (selectedOption.equals("Avaliar filme")) {
