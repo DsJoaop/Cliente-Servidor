@@ -5,13 +5,17 @@
 package interfaces;
 
 import Cliente.Cliente;
+import com.formdev.flatlaf.FlatDarkLaf;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
  * @author joaop
  */
 public class ClienteGUI extends javax.swing.JFrame {
-    private final Cliente cliente = new Cliente();
+    private final Cliente cliente  = new Cliente();
     /**
      * Creates new form ClienteInter
      */
@@ -45,11 +49,12 @@ public class ClienteGUI extends javax.swing.JFrame {
         jpRequisicao = new javax.swing.JPanel();
         lbRequsicao = new javax.swing.JLabel();
         cmbRequisicao = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        btEnviarRequisicao = new javax.swing.JButton();
+        jpPainelServidor = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtResposta = new javax.swing.JTextArea();
+        btCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cliente-Servidor");
@@ -102,20 +107,20 @@ public class ClienteGUI extends javax.swing.JFrame {
         });
         jpRequisicao.add(cmbRequisicao);
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton2.setText("Enviar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btEnviarRequisicao.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btEnviarRequisicao.setText("Enviar");
+        btEnviarRequisicao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btEnviarRequisicaoActionPerformed(evt);
             }
         });
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jpPainelServidor.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jpPainelServidor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setText("Resposta do Servidor");
-        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        jpPainelServidor.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
 
         txtResposta.setEditable(false);
         txtResposta.setColumns(20);
@@ -123,52 +128,63 @@ public class ClienteGUI extends javax.swing.JFrame {
         txtResposta.setRows(5);
         jScrollPane2.setViewportView(txtResposta);
 
-        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 300, 370));
+        jpPainelServidor.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 300, 370));
+
+        btCancelar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btCancelar.setText("Cancelar");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(99, 99, 99)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jpNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jpRequisicao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jpFilme, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jpNota, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 172, Short.MAX_VALUE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btEnviarRequisicao, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jpNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jpRequisicao, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                            .addComponent(jpFilme, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jpNota, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(49, 49, 49)))
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jpPainelServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jpNome, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jpRequisicao, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jpFilme, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jpNota, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton2)
-                        .addGap(90, 90, 90)))
+                .addComponent(jpPainelServidor, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
                 .addGap(14, 14, 14))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jpNome, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(jpRequisicao, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jpFilme, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jpNota, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btEnviarRequisicao, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(64, 64, 64))
         );
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -180,7 +196,7 @@ public class ClienteGUI extends javax.swing.JFrame {
     private void cmbRequisicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRequisicaoActionPerformed
         String selectedOption = (String) cmbRequisicao.getSelectedItem();
          Object[] objetos;
-        if (selectedOption.equals("Avaliar filme")) {
+        if (cmbRequisicao.getSelectedItem() != null && selectedOption.equals("Avaliar filme")) {
             jpFilme.setVisible(true);
             jpNota.setVisible(true);
         }else{
@@ -189,10 +205,34 @@ public class ClienteGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmbRequisicaoActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    
+    
+    private boolean validarCampos( String selectedOption){
+        String msgErro = "";
+
+        if(selectedOption == null || selectedOption.isEmpty()){
+            msgErro += "Insira uma opção de requisição!\n";
+        }else if (selectedOption.equals("Avaliar filme")) {
+            if(cmbNota.getSelectedItem() == null || cmbFilme.getSelectedItem() == null || txtNome.getText().isEmpty()){
+                msgErro += "Preencha todos os campos!\n";
+            }
+        }
+
+        
+        
+        if(msgErro.isEmpty()){
+            return true;
+        }else{
+            JOptionPane.showMessageDialog(this, msgErro, "Verifique os campos e tente novamente", JOptionPane.ERROR_MESSAGE);
+            return false; 
+        }
+    }
+    
+    
+    private void btEnviarRequisicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarRequisicaoActionPerformed
          String selectedOption = (String) cmbRequisicao.getSelectedItem();
          Object[] objetos;
-        if (selectedOption != null) {
+        if (validarCampos(selectedOption)) {
             switch (selectedOption) {
                 case "Filmes não avaliados":
                     objetos = new Object[] {1, txtNome.getText()};
@@ -215,7 +255,15 @@ public class ClienteGUI extends javax.swing.JFrame {
                     break;
             }
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btEnviarRequisicaoActionPerformed
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        txtNome.setText("");
+        cmbFilme.setSelectedIndex(-1);
+        cmbNota.setSelectedIndex(-1);
+        cmbRequisicao.setSelectedIndex(-1);
+        
+    }//GEN-LAST:event_btCancelarActionPerformed
 
     private <T> String concatenarArray(T[] array) {
         StringBuilder result = new StringBuilder();
@@ -247,22 +295,22 @@ public class ClienteGUI extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClienteGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        /* Set the FlatLighLaf and feel */
         
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        //Setando um tema de um repositório externo
+        try {
+            UIManager.setLookAndFeel( new FlatDarkLaf() );
+        } catch( UnsupportedLookAndFeelException ex ) {
+            System.err.println( "Falha ao iniciar tema FlatLightLaf" );
+        }catch (Exception ex) {
+            System.err.println( "Falha ao definir tema" );
+        } 
+        //</editor-fold>
+        
+        // TRADUÇÃO
+        javax.swing.UIManager.put("OptionPane.yesButtonText", "Sim"); 
+        javax.swing.UIManager.put("OptionPane.noButtonText", "Não");
         
 
         /* Create and display the form */
@@ -272,18 +320,19 @@ public class ClienteGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btCancelar;
+    private javax.swing.JButton btEnviarRequisicao;
     private javax.swing.JComboBox<String> cmbFilme;
     private javax.swing.JComboBox<String> cmbNota;
     private javax.swing.JComboBox<String> cmbRequisicao;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel jpFilme;
     private javax.swing.JPanel jpNome;
     private javax.swing.JPanel jpNota;
+    private javax.swing.JPanel jpPainelServidor;
     private javax.swing.JPanel jpRequisicao;
     private javax.swing.JLabel lbFilme;
     private javax.swing.JLabel lbNome;

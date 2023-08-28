@@ -103,20 +103,6 @@ public class Data {
         }
     }
 
-    private String filmesNaoAvaliados(String nome) {
-        int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
-
-        StringBuilder filmesNaoAvaliados = new StringBuilder();
-        for (int coluna = 0; coluna < N_FILMES; coluna++) {
-            if (avaliacoes[linhaUsuario][coluna] == 0) {
-                if (filmesNaoAvaliados.length() > 0) {
-                    filmesNaoAvaliados.append("\n");
-                }
-                filmesNaoAvaliados.append(acharFilme(coluna));
-            }
-        }
-        return filmesNaoAvaliados.toString();
-    }
 
     private String avaliarFilme(String nome, String nomeFilme, int nota) {
         int colunaFilme = indiceFilmeMapa.getOrDefault(nomeFilme, -1);
@@ -128,6 +114,7 @@ public class Data {
         return "Filme: " + nomeFilme + ", avaliado com sucesso!";
     }
 
+    
     private String recomendarFilme(String nome) {
         int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
         int usuarioProximo = 0;
@@ -172,24 +159,17 @@ public class Data {
             return "Não há filmes para recomendar!";
         }
     }
-
-    private String listarAvaliacoes(String nome) {
-        int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
-
-        StringBuilder avaliacoesUsuario = new StringBuilder();
-        for (int coluna = 0; coluna < N_FILMES; coluna++) {
-            int avaliacao = avaliacoes[linhaUsuario][coluna];
-            String filme = acharFilme(coluna);
-
-            if (coluna == 0) {
-                avaliacoesUsuario.append(filme).append(": ").append(avaliacao);
-            } else {
-                avaliacoesUsuario.append("\n").append(filme).append(": ").append(avaliacao);
-            }
-        }
-        return avaliacoesUsuario.toString();
+    
+     private void exibirMatrizAvaliacoes(){
+        System.out.println();
+        for (int i = 0; i < avaliacoes.length; i++) {
+            for (int j = 0; j < avaliacoes[i].length; j++) {
+                System.out.print(avaliacoes[i][j] + " ");
+            } System.out.println();
+        } System.out.println();
     }
-
+    
+    
     private double calcularDistancia(int[][] matriz, int linhaUsuario, int outroUsuario) {
         double total = 0;
         double distancia = 0;
@@ -212,6 +192,29 @@ public class Data {
         
         return distancia;
     }
+    
+    
+    private String listarAvaliacoes(String nome) {
+        int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
+
+        List<String> avaliacoesFilmes = new ArrayList<>();
+
+        for (int coluna = 0; coluna < N_FILMES; coluna++) {
+            int avaliacao = avaliacoes[linhaUsuario][coluna];
+            if (avaliacao != 0) {
+                String filme = acharFilme(coluna);
+                avaliacoesFilmes.add(filme + ": " + avaliacao);
+            }
+        }
+
+        if (avaliacoesFilmes.isEmpty()) {
+            return "Não foram encontrados filmes avaliados pelo usuário.";
+        }
+        
+        //Adicionando quebra de linha entre os elementos
+        return String.join("\n", avaliacoesFilmes);
+    }
+
 
     private String acharFilme(int coluna) {
         for (Map.Entry<String, Integer> entrada : indiceFilmeMapa.entrySet()) {
@@ -222,12 +225,23 @@ public class Data {
         return "";
     }
     
-    private void exibirMatrizAvaliacoes(){
-        System.out.println();
-        for (int i = 0; i < avaliacoes.length; i++) {
-            for (int j = 0; j < avaliacoes[i].length; j++) {
-                System.out.print(avaliacoes[i][j] + " ");
-            } System.out.println();
-        } System.out.println();
+    private String filmesNaoAvaliados(String nome) {
+        int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
+
+        List<String> filmesNaoAvaliados = new ArrayList<>();
+        for (int coluna = 0; coluna < N_FILMES; coluna++) {
+            if (avaliacoes[linhaUsuario][coluna] == 0) {
+                filmesNaoAvaliados.add(acharFilme(coluna));
+            }
+        }
+
+        if (filmesNaoAvaliados.isEmpty()) {
+            return "Todos os filmes foram avaliados pelo usuário.";
+        }
+        
+        //Adicionando quebra de linha entre os elementos
+        return String.join("\n", filmesNaoAvaliados);
     }
+    
+   
 }

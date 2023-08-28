@@ -6,9 +6,10 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import java.net.*;
+import javax.swing.JOptionPane;
 
 public class Cliente {
-    private static final String SERVER_ADDRESS = "localhost";  // Altere para o endereço do servidor
+   private static final String SERVER_ADDRESS = "localhost";  
     private static final int SERVER_PORT = 6789;
 
     private DatagramSocket socket;
@@ -19,7 +20,8 @@ public class Cliente {
             socket = new DatagramSocket();
             serverAddress = InetAddress.getByName(SERVER_ADDRESS);
         } catch (SocketException | UnknownHostException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao iniciar Cliente", JOptionPane.ERROR_MESSAGE);
+           
         }
     }
 
