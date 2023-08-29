@@ -5,7 +5,6 @@
 package interfaces;
 
 import Cliente.Cliente;
-import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -16,9 +15,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class ClienteGUI extends javax.swing.JFrame {
     private final Cliente cliente  = new Cliente();
-    /**
-     * Creates new form ClienteInter
-     */
+    
     public ClienteGUI() {
         initComponents();
         jpFilme.setVisible(false);
@@ -193,6 +190,9 @@ public class ClienteGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    
     private void cmbRequisicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRequisicaoActionPerformed
         String selectedOption = (String) cmbRequisicao.getSelectedItem();
          Object[] objetos;
@@ -221,8 +221,6 @@ public class ClienteGUI extends javax.swing.JFrame {
                 msgErro += "Preencha todos os campos!\n";
             }
         }
-
-        
         
         if(msgErro.isEmpty()){
             return true;
@@ -299,27 +297,34 @@ public class ClienteGUI extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the FlatLighLaf and feel */
-        
+        /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        //Setando um tema de um repositório externo
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
         try {
-            UIManager.setLookAndFeel( new FlatDarkLaf() );
-        } catch( UnsupportedLookAndFeelException ex ) {
-            System.err.println( "Falha ao iniciar tema FlatLightLaf" );
-        }catch (Exception ex) {
-            System.err.println( "Falha ao definir tema" );
-        } 
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Windows".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ClienteGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ClienteGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ClienteGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ClienteGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         //</editor-fold>
-        
-        // TRADUÇÃO
-        javax.swing.UIManager.put("OptionPane.yesButtonText", "Sim"); 
-        javax.swing.UIManager.put("OptionPane.noButtonText", "Não");
-        
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new ClienteGUI().setVisible(true);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ClienteGUI().setVisible(true);
+            }
         });
     }
 

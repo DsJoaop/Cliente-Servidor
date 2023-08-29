@@ -11,7 +11,8 @@ import java.util.Map;
  */
 public class Data {
     private static final int N_FILMES = 20;
-
+    private static final int N_USUARIOS = 10;
+    
     private static final int[][] avaliacoes = {
             {2, 1, 0, 3, 2, 0, 1, 0, 3, 2, 0, 0, 1, 3, 2, 0, 3, 2, 0, 1},
             {3, 2, 0, 0, 1, 2, 0, 1, 0, 3, 2, 3, 0, 0, 1, 2, 0, 1, 3, 2},
@@ -51,41 +52,50 @@ public class Data {
     private static final Map<String, Integer> indiceUsuarioMapa = new HashMap<>();
     private static final Map<String, Integer> indiceFilmeMapa = new HashMap<>();
     
-     static {
+    static {    
+            indiceUsuarioMapa.put("Alice", 0);
+            indiceUsuarioMapa.put("Bernardo", 1);
+            indiceUsuarioMapa.put("Carla", 2);
+            indiceUsuarioMapa.put("Daniel", 3);
+            indiceUsuarioMapa.put("Eduarda", 4);
+            indiceUsuarioMapa.put("Felipe", 5);
+            indiceUsuarioMapa.put("Gustavo", 6);
+            indiceUsuarioMapa.put("Helena", 7);
+            indiceUsuarioMapa.put("Isabela", 8);
+            indiceUsuarioMapa.put("João", 9);
 
-        indiceUsuarioMapa.put("Alice", 0);
-        indiceUsuarioMapa.put("Bernardo", 1);
-        indiceUsuarioMapa.put("Carla", 2);
-        indiceUsuarioMapa.put("Daniel", 3);
-        indiceUsuarioMapa.put("Eduarda", 4);
-        indiceUsuarioMapa.put("Felipe", 5);
-        indiceUsuarioMapa.put("Gustavo", 6);
-        indiceUsuarioMapa.put("Helena", 7);
-        indiceUsuarioMapa.put("Isabela", 8);
-        indiceUsuarioMapa.put("João", 9);
-
-        indiceFilmeMapa.put("A Origem", 0);
-        indiceFilmeMapa.put("Interestelar", 1);
-        indiceFilmeMapa.put("Gravidade", 2);
-        indiceFilmeMapa.put("O Poderoso Chefão", 3);
-        indiceFilmeMapa.put("Pulp Fiction", 4);
-        indiceFilmeMapa.put("Clube da Luta", 5);
-        indiceFilmeMapa.put("Forrest Gump", 6);
-        indiceFilmeMapa.put("Cidade de Deus", 7);
-        indiceFilmeMapa.put("Vingadores: Ultimato", 8);
-        indiceFilmeMapa.put("O Senhor dos Anéis", 9);
-        indiceFilmeMapa.put("Coringa", 10);
-        indiceFilmeMapa.put("O Iluminado", 11);
-        indiceFilmeMapa.put("Cisne Negro", 12);
-        indiceFilmeMapa.put("Titanic", 13);
-        indiceFilmeMapa.put("O Rei Leão", 14);
-        indiceFilmeMapa.put("Harry Potter", 15);
-        indiceFilmeMapa.put("O Labirinto do Fauno", 16);
-        indiceFilmeMapa.put("Gladiador", 17);
-        indiceFilmeMapa.put("O Quinto Elemento", 18);
-        indiceFilmeMapa.put("E.T. - O Extraterrestre", 19);
+            indiceFilmeMapa.put("A Origem", 0);
+            indiceFilmeMapa.put("Interestelar", 1);
+            indiceFilmeMapa.put("Gravidade", 2);
+            indiceFilmeMapa.put("O Poderoso Chefão", 3);
+            indiceFilmeMapa.put("Pulp Fiction", 4);
+            indiceFilmeMapa.put("Clube da Luta", 5);
+            indiceFilmeMapa.put("Forrest Gump", 6);
+            indiceFilmeMapa.put("Cidade de Deus", 7);
+            indiceFilmeMapa.put("Vingadores: Ultimato", 8);
+            indiceFilmeMapa.put("O Senhor dos Anéis", 9);
+            indiceFilmeMapa.put("Coringa", 10);
+            indiceFilmeMapa.put("O Iluminado", 11);
+            indiceFilmeMapa.put("Cisne Negro", 12);
+            indiceFilmeMapa.put("Titanic", 13);
+            indiceFilmeMapa.put("O Rei Leão", 14);
+            indiceFilmeMapa.put("Harry Potter", 15);
+            indiceFilmeMapa.put("O Labirinto do Fauno", 16);
+            indiceFilmeMapa.put("Gladiador", 17);
+            indiceFilmeMapa.put("O Quinto Elemento", 18);
+            indiceFilmeMapa.put("E.T. - O Extraterrestre", 19);
     }
     
+    /*
+    static {    
+            indiceUsuarioMapa.put("Zé", 0);
+            indiceUsuarioMapa.put("Ana", 1);
+            indiceUsuarioMapa.put("Martha", 2);
+
+            indiceFilmeMapa.put("Tempos Modernos", 0);
+            indiceFilmeMapa.put("Star Wars", 1);
+    }
+    */
      
     protected String processarRequisicao(String requisicao) {
         String[] partes = requisicao.split(";");
@@ -113,26 +123,25 @@ public class Data {
 
 
     private String avaliarFilme(String nome, String nomeFilme, int nota) {
-        int colunaFilme = indiceFilmeMapa.getOrDefault(nomeFilme, -1);
-        int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
-
-        if (colunaFilme != -1 && linhaUsuario != -1) {
-            avaliacoes[linhaUsuario][colunaFilme] = nota;
-        }
+        int colunaFilme = indiceFilmeMapa.get(nomeFilme);
+        int linhaUsuario = indiceUsuarioMapa.get(nome);
+        
+        avaliacoes[linhaUsuario][colunaFilme] = nota;
+        
         return "Filme: " + nomeFilme + ", avaliado com sucesso!";
     }
 
     
     private String recomendarFilme(String nome) {
-        int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
-        int usuarioProximo = 0;
+        int linhaUsuario = indiceUsuarioMapa.get(nome);
+        int usuarioProximo = -1;
         double menorDistancia = Double.MAX_VALUE;
         List<Integer> filmeRecomendado = new ArrayList<>();
         
         exibirMatrizAvaliacoes();
         
         // encontrar o usuario mais proximo
-        for (int usuario = 0; usuario < 10; usuario++){
+        for (int usuario = 0; usuario < N_USUARIOS; usuario++){
             if (usuario != linhaUsuario) {
                 double distancia = calcularDistancia(avaliacoes, linhaUsuario, usuario);
                 if (distancia < menorDistancia) {
@@ -141,7 +150,7 @@ public class Data {
                 }
             }
         }
-        System.out.println("\n [[FINAL]]: Usuario mais proximo: " + usuarioProximo);
+        System.out.println("\n [[FINAL]]: Usuario mais proximo: " + usuarioProximo + " distancia: " + menorDistancia + "\n");
         
         /* encontrar algum filme entre esses dois usuarios que o outro tenha
         avaliado positivamente (2 ou 3) e que o usuario que solicitou a recomendacao
@@ -203,7 +212,7 @@ public class Data {
     
     
     private String listarAvaliacoes(String nome) {
-        int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
+        int linhaUsuario = indiceUsuarioMapa.get(nome);
 
         List<String> avaliacoesFilmes = new ArrayList<>();
 
@@ -234,7 +243,7 @@ public class Data {
     }
     
     private String filmesNaoAvaliados(String nome) {
-        int linhaUsuario = indiceUsuarioMapa.getOrDefault(nome, -1);
+        int linhaUsuario = indiceUsuarioMapa.get(nome);
 
         List<String> filmesNaoAvaliados = new ArrayList<>();
         for (int coluna = 0; coluna < N_FILMES; coluna++) {
